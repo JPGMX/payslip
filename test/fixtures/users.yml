@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  first_name: MyString
+  last_name: MyString
+  annual_salary: 1
+  super_rate: MyString
+  payment_start_date: MyString
+
+two:
+  first_name: MyString
+  last_name: MyString
+  annual_salary: 1
+  super_rate: MyString
+  payment_start_date: MyString
