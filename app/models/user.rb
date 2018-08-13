@@ -3,10 +3,10 @@ class User < ApplicationRecord
 
   def self.import(file)
     data=CSV.read(file, { encoding: "UTF-8", headers: true, header_converters: :symbol, converters: :all})
+    raise Exception.new('Missing required file') unless data
     users_data = data.map { |d| d.to_hash }
 
     users_data.each do |employee|
-      p "Datos#{employee.keys}"
       employee[:gross_income]= calculate_gross_income(employee[:annual_salary])
       employee[:income_tax]= calculate_income_tax(employee[:annual_salary])
       employee[:net_income]=employee[:gross_income]-employee[:income_tax]
@@ -26,7 +26,15 @@ class User < ApplicationRecord
 
   private
   def self.calculate_gross_income(annual_salary)
-    annual_salary/12 unless !annual_salary
+
+    case annual_salary
+    when String
+      (annual_salary.delete("$,").to_f)/12
+    when Float
+      annual_salary/12
+    else
+      0
+    end
   end
 
   def self.calculate_income_tax(annual_salary)
