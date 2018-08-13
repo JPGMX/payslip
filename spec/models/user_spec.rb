@@ -12,16 +12,15 @@ RSpec.describe User, type: :model do
         expect {User.import(params )}.to raise_exception
       end
     end
-    context '#self.calculate_gross_income' do
+    context '#self.validate values' do
       it 'returns 0 if parameter is a string' do
-        annual_salary='twenty3'
-        expect(User.calculate_gross_income(annual_salary)).to eq(0)
+        val='twenty3'
+        expect(User.calculate_gross_income(val)).to eq(0)
       end
       it 'returns result with a number as string' do
-        random_salary="$#{rand(999)},#{rand(999)}"
-        expect(User.calculate_gross_income(random_salary)).to be_kind_of(Float)
+        random_value="$#{rand(999)},#{rand(999)}"
+        expect(User.calculate_gross_income(random_value)).to be_kind_of(Float)
       end
-
       it 'returns 0 if parameter is other than String or number' do
         expect(User.calculate_gross_income(true)).to eq(0)
       end

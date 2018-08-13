@@ -25,16 +25,20 @@ class User < ApplicationRecord
   end
 
   private
-  def self.calculate_gross_income(annual_salary)
 
-    case annual_salary
+  def self.validate_values(val)
+    case val
     when String
-      (annual_salary.delete("$,").to_f)/12
+      (val.delete("$,").to_f)
     when Float
-      annual_salary/12
+      val
     else
       0
     end
+  end
+  
+  def self.calculate_gross_income(annual_salary)
+      validate_values(annual_salary)/12
   end
 
   def self.calculate_income_tax(annual_salary)
