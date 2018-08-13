@@ -10,7 +10,7 @@ class User < ApplicationRecord
       employee[:gross_income]= calculate_gross_income(employee[:annual_salary])
       employee[:income_tax]= calculate_income_tax(employee[:annual_salary])
       employee[:net_income]=employee[:gross_income]-employee[:income_tax]
-      employee[:super]= (employee[:gross_income] * ((employee[:super_rate].to_f)/ 100)).round
+      employee[:super]= (employee[:gross_income] * (validate_values(employee[:super_rate]))).round
       User.create! employee
     end
   end
@@ -29,7 +29,7 @@ class User < ApplicationRecord
   def self.validate_values(val)
     case val
     when String
-      (val.delete("$,").to_f)
+      val.include?("%") ? val.to_f/100 : (val.delete("$,").to_f)
     when Float
       val
     else
@@ -44,7 +44,7 @@ class User < ApplicationRecord
   def self.calculate_income_tax(annual_salary)
     calculation= case validate_values(annual_salary)
                  when 0..18000
-                   nil
+                   0
                  when 18201..37000
                    (((annual_salary-18200)*0.19)/12).round
                  when 37001..87000

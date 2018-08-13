@@ -34,5 +34,13 @@ RSpec.describe User, type: :model do
     end
 
 
+    context '#self.calculate_income_tax' do
+      it 'returns result with a correct number' do
+        random_value=rand(999999)
+        expect(User.calculate_income_tax(random_value)).to be_kind_of(Numeric)
+      end
+    end
+
+
   end
 end
