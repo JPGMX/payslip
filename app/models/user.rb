@@ -7,10 +7,10 @@ class User < ApplicationRecord
     users_data = data.map { |d| d.to_hash }
 
     users_data.each do |employee|
-      employee[:gross_income]= calculate_gross_income(employee[:annual_salary])
-      employee[:income_tax]= calculate_income_tax(employee[:annual_salary])
+      employee[:gross_income]= calculate_gross_income(employee.dig(:annual_salary) || 0)
+      employee[:income_tax]= calculate_income_tax(employee.dig(:annual_salary)|| 0)
       employee[:net_income]=employee[:gross_income]-employee[:income_tax]
-      employee[:super]= (employee[:gross_income] * (validate_values(employee[:super_rate]))).round
+      employee[:super]= (employee[:gross_income] * (validate_values(employee.dig(:super_rate)||0))).round
       User.create! employee
     end
   end
