@@ -15,6 +15,15 @@ class User < ApplicationRecord
     end
   end
 
+  def self.export
+    CSV.generate do |csv|
+      csv << column_names
+      all.each do |user|
+        csv << user.attributes.values_at(*column_names)
+      end
+    end
+  end
+
   private
   def self.calculate_gross_income(annual_salary)
     annual_salary/12 unless !annual_salary

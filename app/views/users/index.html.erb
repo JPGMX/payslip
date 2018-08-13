@@ -31,6 +31,10 @@
       <td><%= user.net_income %></td>
       <td><%= user.super %></td>
   <% end %>
+    </tr>
+  <%if @users	%>
+   <tr> <td><%= link_to 'Export', users_index_path(format:"csv") %></td> </tr>
+  <% end	  %>
   </tbody>
 </table>
 
