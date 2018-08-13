@@ -42,7 +42,7 @@ class User < ApplicationRecord
   end
 
   def self.calculate_income_tax(annual_salary)
-    calculation= case annual_salary
+    calculation= case validate_values(annual_salary)
                  when 0..18000
                    nil
                  when 18201..37000

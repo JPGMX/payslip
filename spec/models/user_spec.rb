@@ -14,17 +14,25 @@ RSpec.describe User, type: :model do
     end
     context '#self.validate values' do
       it 'returns 0 if parameter is a string' do
-        val='twenty3'
-        expect(User.calculate_gross_income(val)).to eq(0)
+        expect(User.validate_values(SecureRandom.random_bytes(10))).to eq(0)
       end
-      it 'returns result with a number as string' do
+      it 'returns result with a formatted number as string' do
         random_value="$#{rand(999)},#{rand(999)}"
-        expect(User.calculate_gross_income(random_value)).to be_kind_of(Float)
+        expect(User.validate_values(random_value)).to be_kind_of(Numeric)
       end
       it 'returns 0 if parameter is other than String or number' do
-        expect(User.calculate_gross_income(true)).to eq(0)
+        expect(User.validate_values(true)).to eq(0)
       end
 
     end
+
+    context '#self.calculate_gross_income' do
+      it 'returns result with a correct number' do
+        random_value=rand(999999)
+        expect(User.calculate_gross_income(random_value)).to be_kind_of(Numeric)
+      end
+    end
+
+
   end
 end
