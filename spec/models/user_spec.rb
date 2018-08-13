@@ -24,6 +24,11 @@ RSpec.describe User, type: :model do
         expect(User.validate_values(true)).to eq(0)
       end
 
+      it 'returns a number if parameter is a percentage string' do
+        random_percentage="#{rand(99)}%"
+        expect(User.validate_values(random_percentage)).to be_kind_of(Numeric)
+      end
+
     end
 
     context '#self.calculate_gross_income' do
@@ -35,8 +40,8 @@ RSpec.describe User, type: :model do
 
 
     context '#self.calculate_income_tax' do
-      it 'returns result with a correct number' do
-        random_value=rand(999999)
+      it 'returns a 0 when string includes % and is not a number' do
+        random_value="#{SecureRandom.random_bytes(10)} % #{SecureRandom.random_bytes(10)}"
         expect(User.calculate_income_tax(random_value)).to be_kind_of(Numeric)
       end
     end
